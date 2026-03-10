@@ -18,6 +18,23 @@ import ContactPage from './components/Pages/ContactPage';
 import TermsAndConditionsPage from './components/Pages/TermsAndConditionsPage';
 import RefundPolicyPage from './components/Pages/RefundPolicyPage';
 
+// ────────────────────────────────────────────────
+// Scroll to top on route change
+// ────────────────────────────────────────────────
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    // Most reliable & instant scroll to top
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    
+    // Alternative (if you prefer smooth scroll):
+    // window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [pathname]);
+
+  return null;
+}
+
 // Reusable marquee component
 function GlobalMarquee() {
   return (
@@ -36,7 +53,7 @@ function GlobalMarquee() {
   );
 }
 
-// Floating back-to-top button with visibility control
+// Floating back-to-top button
 function BackToTop() {
   const [visible, setVisible] = useState(false);
 
@@ -70,10 +87,7 @@ function AppContent() {
   const location = useLocation();
   const isHome = location.pathname === '/';
 
-  // Show marquee on all pages except home
   const showMarquee = !isHome;
-
-  // Show floating navbar only on home
   const showNavbar = isHome;
 
   return (
@@ -81,10 +95,10 @@ function AppContent() {
       {/* Always visible header */}
       <TopBar />
 
-      {/* Marquee – non-home pages */}
+      {/* Marquee – shown on all pages except home */}
       {showMarquee && <GlobalMarquee />}
 
-      {/* Optional floating-style navbar on home */}
+      {/* Floating-style navbar – only on home */}
       {showNavbar && (
         <Navbar
           navItems={[
@@ -108,6 +122,9 @@ function AppContent() {
           }}
         />
       )}
+
+      {/* Important: Scroll restoration on route change */}
+      <ScrollToTop />
 
       <main className="flex-grow">
         <Routes>
@@ -138,10 +155,10 @@ function AppContent() {
             }
           />
 
-          {/* Payment */}
+          {/* Payment summary */}
           <Route path="/payment-summary" element={<PaymentSummaryWrapper />} />
 
-          {/* Legal pages */}
+          {/* Legal / static pages */}
           <Route path="/refund-policy" element={<RefundPolicyPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/term-condition" element={<TermsAndConditionsPage />} />
@@ -163,13 +180,12 @@ function AppContent() {
 
       <MainFooter />
 
-      {/* Floating back-to-top */}
+      {/* Floating back-to-top button */}
       <BackToTop />
     </div>
   );
 }
 
-// Small wrapper to keep consistent padding & max-width
 function PaymentSummaryWrapper() {
   return (
     <div className="w-full px-4 sm:px-6 lg:px-8 xl:px-10 py-12 md:py-16">

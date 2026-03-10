@@ -26,10 +26,10 @@ export default function ContactPage() {
               Phone
             </h3>
             <p className="text-center text-gray-600 text-lg font-medium">
-              +91 9315247392
+              +919211037448
             </p>
             <p className="text-center text-sm text-gray-500 mt-2">
-              Available 10 AM – 7 PM (Mon-Sat)
+              Available 10 AM – 6 PM (Mon-Sat)
             </p>
           </div>
 
@@ -42,7 +42,7 @@ export default function ContactPage() {
               Email
             </h3>
             <p className="text-center text-gray-600 text-lg font-medium break-all">
-              info@iecregistration-india.org
+              info@india-iecregistration.org
             </p>
             <p className="text-center text-sm text-gray-500 mt-2">
               We usually reply within 24 hours
