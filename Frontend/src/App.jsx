@@ -17,6 +17,7 @@ import HeroCarousel from './components/Sections/HeroCarousel';
 import ContactPage from './components/Pages/ContactPage';
 import TermsAndConditionsPage from './components/Pages/TermsAndConditionsPage';
 import RefundPolicyPage from './components/Pages/RefundPolicyPage';
+import ScrollToHash from './components/common/ScrollToHash';
 
 // ────────────────────────────────────────────────
 // Scroll to top on route change
@@ -125,6 +126,7 @@ function AppContent() {
 
       {/* Important: Scroll restoration on route change */}
       <ScrollToTop />
+      <ScrollToHash />
 
       <main className="flex-grow">
         <Routes>
