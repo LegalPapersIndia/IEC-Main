@@ -73,7 +73,7 @@ export default function HeaderTop({ handleScroll }) {
                 <img
                   src={Logo}
                   alt="IEC - Import Export Code India"
-                  className="w-32 h-20 xs:w-40 xs:h-24 sm:w-48 sm:h-28 md:w-56 md:h-32 lg:w-64 lg:h-36 object-contain transition-all duration-400 group-hover:scale-105 drop-shadow-lg mx-auto md:mx-0"
+                  className="w-32 h-20 xs:w-40 xs:h-24 sm:w-48 sm:h-28 md:w-56 md:h-32 lg:w-64 lg:h-36 object-contain drop-shadow-lg mx-auto md:mx-0"
                 />
                 <div className="absolute inset-0 rounded-full bg-gradient-to-r from-orange-300/40 to-blue-300/40 opacity-0 group-hover:opacity-70 transition-opacity duration-300 blur-xl"></div>
               </div>
@@ -94,7 +94,7 @@ export default function HeaderTop({ handleScroll }) {
             <img
               src={Swach}
               alt="Swachh Bharat - Global Trade India"
-              className="w-32 h-20 xs:w-40 xs:h-24 sm:w-48 sm:h-28 md:w-56 md:h-32 lg:w-64 lg:h-36 object-contain drop-shadow-2xl transition-all duration-400 group-hover:scale-105 group-hover:rotate-3"
+              className="w-32 h-20 xs:w-40 xs:h-24 sm:w-48 sm:h-28 md:w-56 md:h-32 lg:w-64 lg:h-36 object-contain"
             />
           </div>
         </div>

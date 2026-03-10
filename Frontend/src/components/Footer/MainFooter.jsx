@@ -110,7 +110,7 @@ export default function MainFooter() {
       <img
         src={azadi}
         alt="Azadi Ka Amrit Mahotsav"
-        className="h-20 w-20 sm:h-26 sm:w-26 md:h-30 md:w-30 lg:h-36 lg:w-36 object-contain drop-shadow-xl transition-all duration-400 group-hover:scale-110 group-hover:rotate-3"
+        className="h-20 w-20 sm:h-26 sm:w-26 md:h-30 md:w-30 lg:h-36 lg:w-36 object-contain"
       />
       <div className="absolute inset-0 bg-gradient-to-t from-orange-500/15 to-transparent opacity-0 group-hover:opacity-70 transition-opacity rounded-full blur-sm"></div>
     </div>
@@ -119,7 +119,7 @@ export default function MainFooter() {
       <img
         src={Logo}
         alt="IEC Certification"
-        className="h-20 w-20 sm:h-26 sm:w-26 md:h-30 md:w-30 lg:h-36 lg:w-36 object-contain drop-shadow-xl transition-all duration-400 group-hover:scale-110 group-hover:rotate-3"
+        className="h-20 w-20 sm:h-26 sm:w-26 md:h-30 md:w-30 lg:h-36 lg:w-36 object-contain"
       />
       <div className="absolute inset-0 bg-gradient-to-t from-blue-500/15 to-transparent opacity-0 group-hover:opacity-70 transition-opacity rounded-full blur-sm"></div>
     </div>
@@ -130,7 +130,7 @@ export default function MainFooter() {
 
         <div className="mt-12 pt-8 border-t border-gray-600/50 text-center text-sm opacity-80">
           <p>
-            This is a private consultancy service. All fees are for professional assistance only. 
+            This is a private consultancy service Portal. All fees are for professional assistance only. 
             Not associated with any Government department.
           </p>
         </div>
