@@ -11,19 +11,19 @@ export default function HeaderTop({ handleScroll }) {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center gap-2 sm:gap-4">
           <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-6 text-center sm:text-left">
             <a
-              href="mailto:info@iecregistration-india.org"
+              href="mailto:info@india-iecregistration.org"
               className="flex items-center gap-2 hover:text-orange-100 transition-colors"
             >
               <span>📧</span>
-              info@iecregistration-india.org
+              info@india-iecregistration.org/
             </a>
             <span className="hidden sm:inline text-orange-100/60">|</span>
             <a
-              href="tel:+919315247392"
+              href="tel:+919211037448"
               className="flex items-center gap-2 hover:text-orange-100 transition-colors"
             >
               <span>📞</span>
-              +91-9315247392
+              +91-9211037448
             </a>
           </div>
 
@@ -94,9 +94,8 @@ export default function HeaderTop({ handleScroll }) {
             <img
               src={Swach}
               alt="Swachh Bharat - Global Trade India"
-              className="w-32 h-32 sm:w-40 sm:h-40 lg:w-48 lg:h-48 xl:w-52 xl:h-52 object-contain drop-shadow-2xl transition-all duration-400 group-hover:scale-105 group-hover:rotate-3"
+              className="w-32 h-20 xs:w-40 xs:h-24 sm:w-48 sm:h-28 md:w-56 md:h-32 lg:w-64 lg:h-36 object-contain drop-shadow-2xl transition-all duration-400 group-hover:scale-105 group-hover:rotate-3"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-orange-400/30 via-transparent rounded-full opacity-50 group-hover:opacity-75 transition-opacity duration-300"></div>
           </div>
         </div>
       </div>
