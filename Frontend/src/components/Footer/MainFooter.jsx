@@ -110,7 +110,7 @@ export default function MainFooter() {
       <img
         src={azadi}
         alt="Azadi Ka Amrit Mahotsav"
-        className="h-18 w-18 sm:h-24 sm:w-24 md:h-28 md:w-28 lg:h-30 lg:w-30 object-contain drop-shadow-xl transition-all duration-400 group-hover:scale-110 group-hover:rotate-3"
+        className="h-20 w-20 sm:h-26 sm:w-26 md:h-30 md:w-30 lg:h-36 lg:w-36 object-contain drop-shadow-xl transition-all duration-400 group-hover:scale-110 group-hover:rotate-3"
       />
       <div className="absolute inset-0 bg-gradient-to-t from-orange-500/15 to-transparent opacity-0 group-hover:opacity-70 transition-opacity rounded-full blur-sm"></div>
     </div>
@@ -119,7 +119,7 @@ export default function MainFooter() {
       <img
         src={Logo}
         alt="IEC Certification"
-        className="h-16 w-16 sm:h-20 sm:w-20 md:h-24 md:w-24 lg:h-28 lg:w-28 object-contain drop-shadow-xl transition-all duration-400 group-hover:scale-110 group-hover:rotate-3"
+        className="h-20 w-20 sm:h-26 sm:w-26 md:h-30 md:w-30 lg:h-36 lg:w-36 object-contain drop-shadow-xl transition-all duration-400 group-hover:scale-110 group-hover:rotate-3"
       />
       <div className="absolute inset-0 bg-gradient-to-t from-blue-500/15 to-transparent opacity-0 group-hover:opacity-70 transition-opacity rounded-full blur-sm"></div>
     </div>

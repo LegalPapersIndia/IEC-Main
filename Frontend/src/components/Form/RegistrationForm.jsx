@@ -431,7 +431,7 @@ export default function RegistrationForm() {
         <FormField
           label="11. Contact No. (संपर्क संख्या)"
           name="contact_no"
-          type="tel"
+          type="number"
           value={formData.contact_no}
           onChange={handleChange}
           required

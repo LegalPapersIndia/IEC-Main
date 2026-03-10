@@ -1,3 +1,4 @@
+// src/components/Header/FullHeader.jsx (unchanged structure, just for completeness)
 import HeaderTop from './HeaderTop';
 import Navbar from './Navbar';
 
@@ -16,7 +17,8 @@ export default function FullHeader() {
       e.preventDefault();
       const element = document.querySelector(target);
       if (element) {
-        const headerOffset = 140;
+        // Adjusted header offset for sticky navbar + top bar
+        const headerOffset = 160; // increase if your header is taller
         const elementPosition = element.getBoundingClientRect().top + window.scrollY;
         const offsetPosition = elementPosition - headerOffset;
         window.scrollTo({

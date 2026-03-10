@@ -3,16 +3,16 @@ export default function FaqSection() {
   return (
     <section
       id="faq"
-      className="py-16 md:py-20 bg-gradient-to-br from-blue-900 via-blue-800 to-orange-700 text-white"
+      className="py-16 md:py-24 bg-gradient-to-br from-orange-50 via-orange-100/70 to-orange-50/50"
     >
       <div className="container mx-auto px-4 max-w-6xl">
-        <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 underline decoration-4 decoration-orange-300 underline-offset-8">
+        <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-gray-800 underline decoration-4 decoration-orange-400/80 underline-offset-8">
           Frequently Asked Questions (IEC)
         </h2>
 
         <div className="grid md:grid-cols-2 gap-6 md:gap-10">
           {/* Left Column */}
-          <div className="space-y-5">
+          <div className="space-y-6">
             {[
               {
                 title: "What is IEC (Import Export Code)?",
@@ -52,21 +52,23 @@ export default function FaqSection() {
             ].map((item, index) => (
               <details
                 key={index}
-                className="group bg-white/10 backdrop-blur-sm text-white rounded-xl overflow-hidden shadow-lg transition-all duration-300 hover:shadow-2xl border border-white/20"
+                className="group bg-white/95 rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 border border-orange-200/60 backdrop-blur-[2px]"
               >
-                <summary className="flex justify-between items-center px-6 py-4 cursor-pointer font-semibold text-lg border-l-4 border-orange-400 group-open:bg-white/20">
+                <summary className="flex justify-between items-center px-6 py-5 cursor-pointer font-semibold text-base md:text-lg text-gray-800 border-l-4 border-orange-500 group-open:bg-gradient-to-r group-open:from-orange-100/80 group-open:to-orange-50/60 transition-all duration-300">
                   {item.title}
-                  <span className="text-2xl font-bold text-orange-300 group-open:rotate-180 transition-transform">
+                  <span className="text-3xl font-bold text-orange-600 group-open:rotate-45 transition-transform duration-300">
                     +
                   </span>
                 </summary>
-                <div className="px-6 pb-5 pt-2 text-gray-100">{item.content}</div>
+                <div className="px-6 pb-6 pt-3 text-gray-700 leading-relaxed">
+                  {item.content}
+                </div>
               </details>
             ))}
           </div>
 
           {/* Right Column */}
-          <div className="space-y-5">
+          <div className="space-y-6">
             {[
               {
                 title: "How are standards developed?",
@@ -83,7 +85,7 @@ export default function FaqSection() {
                 content: (
                   <>
                     <p>To purchase IEC standards and publications:</p>
-                    <ol className="list-decimal pl-6 mt-2 space-y-1">
+                    <ol className="list-decimal pl-6 mt-2 space-y-1 text-gray-700">
                       <li>Visit DGFT’s official website and click on ‘Online IEC Application’...</li>
                       <li>On the login page, enter your PAN number...</li>
                       <li>Pay the application fee of ₹500...</li>
@@ -113,15 +115,17 @@ export default function FaqSection() {
             ].map((item, index) => (
               <details
                 key={index}
-                className="group bg-white/10 backdrop-blur-sm text-white rounded-xl overflow-hidden shadow-lg transition-all duration-300 hover:shadow-2xl border border-white/20"
+                className="group bg-white/95 rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 border border-orange-200/60 backdrop-blur-[2px]"
               >
-                <summary className="flex justify-between items-center px-6 py-4 cursor-pointer font-semibold text-lg border-l-4 border-orange-400 group-open:bg-white/20">
+                <summary className="flex justify-between items-center px-6 py-5 cursor-pointer font-semibold text-base md:text-lg text-gray-800 border-l-4 border-orange-500 group-open:bg-gradient-to-r group-open:from-orange-100/80 group-open:to-orange-50/60 transition-all duration-300">
                   {item.title}
-                  <span className="text-2xl font-bold text-orange-300 group-open:rotate-180 transition-transform">
+                  <span className="text-3xl font-bold text-orange-600 group-open:rotate-45 transition-transform duration-300">
                     +
                   </span>
                 </summary>
-                <div className="px-6 pb-5 pt-2 text-gray-100">{item.content}</div>
+                <div className="px-6 pb-6 pt-3 text-gray-700 leading-relaxed">
+                  {item.content}
+                </div>
               </details>
             ))}
           </div>
