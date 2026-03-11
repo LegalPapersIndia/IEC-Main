@@ -15,7 +15,7 @@ export default function HeaderTop({ handleScroll }) {
               className="flex items-center gap-2 hover:text-orange-100 transition-colors"
             >
               <span>📧</span>
-              info@india-iecregistration.org/
+              info@india-iecregistration.org
             </a>
             <span className="hidden sm:inline text-orange-100/60">|</span>
             <a
