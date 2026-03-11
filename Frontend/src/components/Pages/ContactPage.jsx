@@ -58,7 +58,7 @@ export default function ContactPage() {
               Support Hours
             </h3>
             <p className="text-center text-gray-600 text-lg">
-              Monday – Saturday: 10:00 AM – 7:00 PM
+              Monday – Saturday: 10:00 AM – 6:00 PM
             </p>
             <p className="text-center text-gray-600 text-lg mt-4">
               Sunday: Closed
