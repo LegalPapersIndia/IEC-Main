@@ -22,7 +22,7 @@ export default function DisclaimerPage() {
             </p>
 
             <p className="mb-8 font-medium text-xl text-blue-900 border-l-4 border-orange-500 pl-4 py-1">
-              www.iecregistration-india.org IS A PRIVATELY OWNED ONLINE PORTAL AND IN NO WAY REPRESENTS 
+              www.india-iecregistration.org IS A PRIVATELY OWNED ONLINE PORTAL AND IN NO WAY REPRESENTS 
               ANY RELATION WITH ANY GOVERNMENT AUTHORITY OR BODY.
             </p>
 

@@ -86,7 +86,7 @@ export default function RefundPolicyPage() {
               If you believe you are eligible for a refund based on the above policy:
             </p>
             <ol className="list-decimal pl-6 space-y-3 text-gray-700">
-              <li>Contact us via email at <strong>info@iecregistration-india.org</strong> or call <strong>+91 9315247392</strong>.</li>
+              <li>Contact us via email at <strong>info@india-iecregistration.org</strong> or call <strong>+91-9211037448</strong>.</li>
               <li>Clearly mention your order/reference number, date of payment, and reason for refund request.</li>
               <li>Our team will review your case within 2–3 working days.</li>
               <li>If approved, refund will be processed to your original payment method within <strong>7 working days</strong>.</li>

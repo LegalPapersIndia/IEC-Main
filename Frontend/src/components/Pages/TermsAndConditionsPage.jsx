@@ -27,7 +27,7 @@ export default function TermsAndConditionsPage() {
         {/* Introduction */}
         <section className="mb-12">
           <p className="text-gray-700 leading-relaxed mb-6 text-lg">
-            Welcome to <span className="font-semibold">iecregistration-india.org</span>. These Terms and Conditions govern your use of our website and the services we provide. 
+            Welcome to <span className="font-semibold">india-iecregistration.org</span>. These Terms and Conditions govern your use of our website and the services we provide. 
             By accessing or using this portal, you agree to be bound by these terms. If you do not agree, please do not use the website.
           </p>
           <p className="text-gray-700 leading-relaxed">
@@ -155,12 +155,12 @@ export default function TermsAndConditionsPage() {
             <div className="space-y-3 text-gray-700">
               <p className="flex items-center gap-3">
                 <span className="font-semibold">Email:</span> 
-                <a href="mailto:info@iecregistration-india.org" className="text-orange-600 hover:underline">
-                  info@iecregistration-india.org
+                <a href="mailto:info@india-iecregistration.org" className="text-orange-600 hover:underline">
+                  info@india-iecregistration.org
                 </a>
               </p>
               <p className="flex items-center gap-3">
-                <span className="font-semibold">Mobile:</span> +91 9315247392
+                <span className="font-semibold">Mobile:</span> +91-9211037448
               </p>
             </div>
           </section>
