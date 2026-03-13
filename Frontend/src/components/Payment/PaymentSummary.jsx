@@ -18,7 +18,7 @@ export default function PaymentSummary() {
       }
     } else {
       setError("No application data found. Redirecting...");
-      setTimeout(() => window.location.href = "/iec-registration", 3000);
+      setTimeout(() => window.location.href = "/", 3000);
     }
   }, []);
 
@@ -100,7 +100,7 @@ export default function PaymentSummary() {
         <div className="p-6 md:p-10 bg-gray-50 border-t border-gray-200">
           <div className="max-w-md mx-auto text-center">
             <h3 className="text-2xl font-bold text-gray-800 mb-4">IEC Processing Fee</h3>
-            <p className="text-5xl font-extrabold text-orange-600 mb-6">₹ 2,999</p>
+            <p className="text-5xl font-extrabold text-orange-600 mb-6">₹ 1,950</p>
             <p className="text-gray-600 mb-8">One-time consultancy & processing fee</p>
 
             <button
