@@ -160,7 +160,7 @@ export default function RegistrationForm() {
       newErrors.contact_no = "Mobile must be 10 digits starting with 6-9";
     }
 
-    // Optional fields - only format check if filled
+
     if (formData.pincode && !/^\d{6}$/.test(formData.pincode)) {
       newErrors.pincode = "Pincode must be 6 digits";
     }
@@ -331,7 +331,7 @@ export default function RegistrationForm() {
         />
 
         <FormField
-          label="4. Description of Business (व्यापार का वर्णन) (optional)"
+          label="4. Description of Business (व्यापार का वर्णन)"
           name="description_business"
           type="textarea"
           value={formData.description_business}
@@ -352,7 +352,7 @@ export default function RegistrationForm() {
         />
 
         <FormField
-          label="6. Date of Incorporation / Date of Birth (DD-MM-YYYY) (optional)"
+          label="6. Date of Incorporation / Date of Birth (DD-MM-YYYY)"
           name="date_of_incorporation"
           type="date"
           value={formData.date_of_incorporation}
@@ -370,14 +370,14 @@ export default function RegistrationForm() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <FormField
               name="address_line1"
-              placeholder="Address Line 1 (optional)"
+              placeholder="Address Line 1"
               value={formData.address_line1}
               onChange={handleChange}
               error={errors.address_line1}
             />
             <FormField
               name="address_line2"
-              placeholder="Address Line 2 (optional)"
+              placeholder="Address Line 2"
               value={formData.address_line2}
               onChange={handleChange}
             />
@@ -386,7 +386,7 @@ export default function RegistrationForm() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <FormField
               name="city"
-              placeholder="City (optional)"
+              placeholder="City"
               value={formData.city}
               onChange={handleChange}
             />
@@ -403,7 +403,7 @@ export default function RegistrationForm() {
 
             <FormField
               name="pincode"
-              placeholder="Pincode (optional)"
+              placeholder="Pincode"
               value={formData.pincode}
               onChange={handleChange}
               maxLength={6}
@@ -413,7 +413,7 @@ export default function RegistrationForm() {
         </div>
 
         <FormField
-          label="8. Do You Have Any Branch (क्या आपकी कोई शाखा है) (optional)"
+          label="8. Do You Have Any Branch (क्या आपकी कोई शाखा है)"
           name="has_branch"
           type="select"
           options={["Yes", "No"]}
