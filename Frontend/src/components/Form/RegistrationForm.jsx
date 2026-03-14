@@ -98,22 +98,7 @@ export default function RegistrationForm() {
 
   const firstErrorRef = useRef(null);
 
-  // Load draft only on mount
-  useEffect(() => {
-    const saved = localStorage.getItem("iecFormDraft");
-    if (saved) {
-      try {
-        setFormData((prev) => ({ ...prev, ...JSON.parse(saved) }));
-      } catch (e) {
-        console.warn("Invalid draft data");
-      }
-    }
-  }, []);
-
-  // Auto-save draft
-  useEffect(() => {
-    localStorage.setItem("iecFormDraft", JSON.stringify(formData));
-  }, [formData]);
+  // No draft loading → form always starts empty on page load / visit
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -132,7 +117,7 @@ export default function RegistrationForm() {
     setErrors({});
     setFormAlert(null);
     setSubmitStatus({ type: "", message: "" });
-    localStorage.removeItem("iecFormDraft");
+    // No localStorage.removeItem needed since we don't save anymore
   };
 
   const validateForm = () => {
@@ -143,10 +128,10 @@ export default function RegistrationForm() {
     if (!formData.constitution) newErrors.constitution = "Constitution is required";
     if (!formData.business_activity) newErrors.business_activity = "Business Activity is required";
 
-    // Address → Only state required
+    // Only state required in address
     if (!formData.state) newErrors.state = "State is required";
 
-    // PAN, Email, Mobile → required + format check
+    // PAN, Email, Mobile required + format check
     if (!formData.pan_no) newErrors.pan_no = "PAN number is required";
     else if (!/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(formData.pan_no)) {
       newErrors.pan_no = "Invalid PAN format (ABCDE1234F)";
@@ -246,7 +231,7 @@ export default function RegistrationForm() {
       await response.text();
 
       localStorage.setItem("iecSubmittedData", JSON.stringify(dataToSend));
-      resetForm(); // ← Clear form after success
+      resetForm();
 
       setSubmitStatus({
         type: "success",
@@ -331,7 +316,7 @@ export default function RegistrationForm() {
         />
 
         <FormField
-          label="4. Description of Business (व्यापार का वर्णन)"
+          label="4. Description of Business (व्यापार का वर्णन) "
           name="description_business"
           type="textarea"
           value={formData.description_business}
@@ -352,7 +337,7 @@ export default function RegistrationForm() {
         />
 
         <FormField
-          label="6. Date of Incorporation / Date of Birth (DD-MM-YYYY)"
+          label="6. Date of Incorporation / Date of Birth (DD-MM-YYYY) "
           name="date_of_incorporation"
           type="date"
           value={formData.date_of_incorporation}
@@ -373,7 +358,6 @@ export default function RegistrationForm() {
               placeholder="Address Line 1"
               value={formData.address_line1}
               onChange={handleChange}
-              error={errors.address_line1}
             />
             <FormField
               name="address_line2"
@@ -420,7 +404,6 @@ export default function RegistrationForm() {
           value={formData.has_branch}
           onChange={handleChange}
           placeholder="Select Yes or No"
-          error={errors.has_branch}
         />
 
         <FormField
