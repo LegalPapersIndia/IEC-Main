@@ -11,10 +11,10 @@ const applicationTypes = [
 
 const constitutions = [
   "Proprietorship",
-  "Partnership",
+  "Partnership Firm",
   "Limited Liability Partnership",
   "Private Limited",
-  "opc",
+  "OPC",
   "Public Limited",
   "Govt. Undertaking",
   "Section 25 Company",
@@ -70,34 +70,35 @@ const indianStates = [
   "Lakshadweep",
 ];
 
-export default function RegistrationForm() {
-  const [formData, setFormData] = useState({
-    application_type: "",
-    business_entity: "",
-    constitution: "",
-    description_business: "",
-    business_activity: "",
-    date_of_incorporation: "",
-    address_line1: "",
-    address_line2: "",
-    city: "",
-    state: "",
-    pincode: "",
-    has_branch: "",
-    pan_no: "",
-    email: "",
-    contact_no: "",
-    sez: "No",
-  });
+const initialFormData = {
+  application_type: "",
+  business_entity: "",
+  constitution: "",
+  description_business: "",
+  business_activity: "",
+  date_of_incorporation: "",
+  address_line1: "",
+  address_line2: "",
+  city: "",
+  state: "",
+  pincode: "",
+  has_branch: "",
+  pan_no: "",
+  email: "",
+  contact_no: "",
+  sez: "No",
+};
 
+export default function RegistrationForm() {
+  const [formData, setFormData] = useState(initialFormData);
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const [submitStatus, setSubmitStatus] = useState({ type: "", message: "" });
+  const [formAlert, setFormAlert] = useState(null);
 
-  const hiddenFormRef = useRef(null);
-  const iframeRef = useRef(null);
+  const firstErrorRef = useRef(null);
 
-  // Load draft
+  // Load draft only on mount
   useEffect(() => {
     const saved = localStorage.getItem("iecFormDraft");
     if (saved) {
@@ -109,7 +110,7 @@ export default function RegistrationForm() {
     }
   }, []);
 
-  // Save draft on every change
+  // Auto-save draft
   useEffect(() => {
     localStorage.setItem("iecFormDraft", JSON.stringify(formData));
   }, [formData]);
@@ -123,39 +124,62 @@ export default function RegistrationForm() {
     if (errors[name]) {
       setErrors((prev) => ({ ...prev, [name]: "" }));
     }
+    if (formAlert) setFormAlert(null);
+  };
+
+  const resetForm = () => {
+    setFormData(initialFormData);
+    setErrors({});
+    setFormAlert(null);
+    setSubmitStatus({ type: "", message: "" });
+    localStorage.removeItem("iecFormDraft");
   };
 
   const validateForm = () => {
     const newErrors = {};
 
-    if (!formData.application_type)
-      newErrors.application_type = "Application Type is required";
-    if (!formData.business_entity.trim())
-      newErrors.business_entity = "Business Entity name is required";
-    if (!formData.constitution)
-      newErrors.constitution = "Constitution is required";
-    if (!formData.business_activity)
-      newErrors.business_activity = "Business Activity is required";
-    if (!formData.address_line1.trim())
-      newErrors.address_line1 = "Address Line 1 is required";
+    if (!formData.application_type) newErrors.application_type = "Application Type is required";
+    if (!formData.business_entity.trim()) newErrors.business_entity = "Business Entity name is required";
+    if (!formData.constitution) newErrors.constitution = "Constitution is required";
+    if (!formData.business_activity) newErrors.business_activity = "Business Activity is required";
+
+    // Address → Only state required
     if (!formData.state) newErrors.state = "State is required";
-    if (formData.pincode && !/^\d{6}$/.test(formData.pincode))
-      newErrors.pincode = "Pincode must be 6 digits";
-    if (!formData.has_branch) newErrors.has_branch = "Please select Yes or No";
-    if (formData.pan_no && !/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(formData.pan_no))
+
+    // PAN, Email, Mobile → required + format check
+    if (!formData.pan_no) newErrors.pan_no = "PAN number is required";
+    else if (!/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(formData.pan_no)) {
       newErrors.pan_no = "Invalid PAN format (ABCDE1234F)";
-    if (!formData.email || !/\S+@\S+\.\S+/.test(formData.email))
-      newErrors.email = "Valid email required";
-    if (formData.contact_no && !/^[6-9]\d{9}$/.test(formData.contact_no))
+    }
+
+    if (!formData.email) newErrors.email = "Email is required";
+    else if (!/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = "Valid email is required";
+
+    if (!formData.contact_no) newErrors.contact_no = "Contact number is required";
+    else if (!/^[6-9]\d{9}$/.test(formData.contact_no)) {
       newErrors.contact_no = "Mobile must be 10 digits starting with 6-9";
+    }
+
+    // Optional fields - only format check if filled
+    if (formData.pincode && !/^\d{6}$/.test(formData.pincode)) {
+      newErrors.pincode = "Pincode must be 6 digits";
+    }
 
     setErrors(newErrors);
+
+    if (Object.keys(newErrors).length > 0) {
+      const firstInvalidName = Object.keys(newErrors)[0];
+      const element = document.querySelector(`[name="${firstInvalidName}"]`);
+      if (element) firstErrorRef.current = element;
+    }
+
     return Object.keys(newErrors).length === 0;
   };
 
   const formatDate = (date) => {
     if (!date) return "";
     const d = new Date(date);
+    if (isNaN(d.getTime())) return "";
     const day = String(d.getDate()).padStart(2, "0");
     const month = String(d.getMonth() + 1).padStart(2, "0");
     const year = d.getFullYear();
@@ -164,27 +188,23 @@ export default function RegistrationForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("1. Form data:", formData);
+    setFormAlert(null);
 
-    // VALIDATION - same
-    if (!formData.application_type)
-      return alert("Application Type select karo");
-    if (!formData.business_entity.trim())
-      return alert("Business name enter karo");
-    if (!formData.constitution) return alert("Constitution select karo");
-    if (!formData.business_activity)
-      return alert("Business activity select karo");
-    if (!formData.address_line1.trim())
-      return alert("Address line 1 enter karo");
-    if (!formData.state) return alert("State select karo");
-    if (!formData.has_branch) return alert("Branch yes/no select karo");
-    if (!formData.pan_no || formData.pan_no.length !== 10)
-      return alert("Valid PAN enter karo");
-    if (!formData.email) return alert("Email enter karo");
-    if (!formData.contact_no || formData.contact_no.length !== 10)
-      return alert("10 digit mobile enter karo");
+    if (!validateForm()) {
+      setFormAlert({
+        type: "error",
+        message: "Please fill all required fields correctly.",
+      });
 
-    console.log("2. Validation PASS");
+      setTimeout(() => {
+        if (firstErrorRef.current) {
+          firstErrorRef.current.focus();
+          firstErrorRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
+      }, 150);
+
+      return;
+    }
 
     setLoading(true);
 
@@ -196,10 +216,8 @@ export default function RegistrationForm() {
       ddlConstitution: formData.constitution,
       txtdescriptionbusiness: formData.description_business || "",
       ddlBsinessActivity: formData.business_activity,
-      txtDate: formData.date_of_incorporation
-        ? formatDate(formData.date_of_incorporation)
-        : "",
-      txtpaddress: formData.address_line1,
+      txtDate: formData.date_of_incorporation ? formatDate(formData.date_of_incorporation) : "",
+      txtpaddress: formData.address_line1 || "",
       txtpaddress2: formData.address_line2 || "",
       txtpcity: formData.city || "",
       txtpstate: formData.state,
@@ -211,8 +229,6 @@ export default function RegistrationForm() {
       ddlEntityBranch: formData.has_branch === "Yes" ? "true" : "false",
     };
 
-    console.log("3. Final data:", dataToSend);
-
     try {
       const response = await fetch(
         "https://legalpapers.konceptsoftwaresolutions.com/leadRoutes",
@@ -220,57 +236,76 @@ export default function RegistrationForm() {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(dataToSend),
-        },
+        }
       );
 
-      console.log("4. Status:", response.status);
-
       if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(`HTTP ${response.status}`);
+        throw new Error(`HTTP error ${response.status}`);
       }
 
-      const result = await response.text(); // ✅ TEXT response
-      console.log("5. Raw response:", result);
+      await response.text();
 
-      // ✅ ANY RESPONSE = SUCCESS (kyunki "Lead post successfully" aa raha hai)
       localStorage.setItem("iecSubmittedData", JSON.stringify(dataToSend));
+      resetForm(); // ← Clear form after success
 
-      setLoading(false);
       setSubmitStatus({
         type: "success",
-        message: "Lead posted successfully! Redirecting...",
+        message: "Lead submitted successfully! Redirecting...",
       });
 
-      // ✅ FORCE REDIRECT
       setTimeout(() => {
         window.location.replace("/payment-summary");
-      }, 800);
+      }, 1800);
     } catch (error) {
-      console.error("6. ERROR:", error);
+      console.error("Submission error:", error);
+      setSubmitStatus({
+        type: "error",
+        message: "Something went wrong. Please try again.",
+      });
+    } finally {
       setLoading(false);
-      setSubmitStatus({ type: "error", message: "Network error" });
     }
   };
 
   return (
     <div
       id="registration-form"
-      className="bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-200/80"
+      className="bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-200/80 max-w-4xl mx-auto"
     >
       <div className="bg-gradient-to-r from-orange-600 to-blue-900 text-white py-6 text-center text-2xl md:text-3xl font-bold tracking-wide shadow-md">
         IEC REGISTRATION FORM
       </div>
 
       <form onSubmit={handleSubmit} className="p-6 md:p-10 lg:p-12 space-y-8">
+
+        {formAlert && (
+          <div className="bg-red-50 border-l-4 border-red-500 text-red-800 p-5 rounded-xl shadow-sm">
+            <strong className="block mb-1">Form not submitted!</strong>
+            {formAlert.message}
+            <p className="mt-2 text-sm">Please check the highlighted fields below.</p>
+          </div>
+        )}
+
+        {submitStatus.message && (
+          <div
+            className={`p-5 rounded-xl border-l-4 text-center shadow-sm ${
+              submitStatus.type === "success"
+                ? "bg-green-50 border-green-500 text-green-800"
+                : "bg-red-50 border-red-500 text-red-800"
+            }`}
+          >
+            {submitStatus.message}
+          </div>
+        )}
+
         <FormField
           label="1. Application Type (आवेदन का प्रकार)"
           name="application_type"
           type="select"
+          options={applicationTypes}
           value={formData.application_type}
           onChange={handleChange}
           required
-          options={applicationTypes}
           error={errors.application_type}
         />
 
@@ -288,15 +323,15 @@ export default function RegistrationForm() {
           label="3. Constitution of Business (व्यापार का संविधान)"
           name="constitution"
           type="select"
+          options={constitutions}
           value={formData.constitution}
           onChange={handleChange}
           required
-          options={constitutions}
           error={errors.constitution}
         />
 
         <FormField
-          label="4. Description of Business (व्यापार का वर्णन)"
+          label="4. Description of Business (व्यापार का वर्णन) (optional)"
           name="description_business"
           type="textarea"
           value={formData.description_business}
@@ -309,15 +344,15 @@ export default function RegistrationForm() {
           label="5. Business Activity (व्यावसायिक गतिविधि)"
           name="business_activity"
           type="select"
+          options={businessActivities}
           value={formData.business_activity}
           onChange={handleChange}
           required
-          options={businessActivities}
           error={errors.business_activity}
         />
 
         <FormField
-          label="6. Date of Incorporation / Date of Birth (DD-MM-YYYY)"
+          label="6. Date of Incorporation / Date of Birth (DD-MM-YYYY) (optional)"
           name="date_of_incorporation"
           type="date"
           value={formData.date_of_incorporation}
@@ -326,82 +361,65 @@ export default function RegistrationForm() {
 
         <div className="space-y-6 bg-gray-50 p-6 rounded-xl border border-gray-200">
           <label className="block text-lg font-semibold text-gray-800">
-            7. Principal Place of Business Entity (बिजनेस एंटिटी का प्रमुख
-            स्थान)
+            7. Principal Place of Business Entity (बिजनेस एंटिटी का प्रमुख स्थान)
           </label>
+          <p className="text-sm text-gray-600 -mt-1 mb-4">
+            (केवल राज्य अनिवार्य है • बाकी वैकल्पिक)
+          </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <input
-                type="text"
-                name="address_line1"
-                value={formData.address_line1}
-                onChange={handleChange}
-                placeholder="Address Line 1 *"
-                className="w-full px-5 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all duration-200 shadow-sm text-gray-800 placeholder-gray-500"
-              />
-              {errors.address_line1 && (
-                <p className="text-red-600 text-sm mt-1">
-                  {errors.address_line1}
-                </p>
-              )}
-            </div>
-            <input
-              type="text"
+            <FormField
+              name="address_line1"
+              placeholder="Address Line 1 (optional)"
+              value={formData.address_line1}
+              onChange={handleChange}
+              error={errors.address_line1}
+            />
+            <FormField
               name="address_line2"
+              placeholder="Address Line 2 (optional)"
               value={formData.address_line2}
               onChange={handleChange}
-              placeholder="Address Line 2 (optional)"
-              className="w-full px-5 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all duration-200 shadow-sm text-gray-800 placeholder-gray-500"
             />
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-            <input
-              type="text"
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <FormField
               name="city"
+              placeholder="City (optional)"
               value={formData.city}
               onChange={handleChange}
-              placeholder="City *"
-              className="w-full px-5 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all duration-200 shadow-sm text-gray-800 placeholder-gray-500"
             />
 
             <FormField
               name="state"
               type="select"
+              options={indianStates}
               value={formData.state}
               onChange={handleChange}
               required
-              options={indianStates}
               error={errors.state}
-              className="w-full px-5 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all duration-200 shadow-sm text-gray-800"
             />
 
-            <div>
-              <input
-                type="text"
-                name="pincode"
-                value={formData.pincode}
-                onChange={handleChange}
-                placeholder="Pincode *"
-                maxLength={6}
-                className="w-full px-5 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all duration-200 shadow-sm text-gray-800 placeholder-gray-500"
-              />
-              {errors.pincode && (
-                <p className="text-red-600 text-sm mt-1">{errors.pincode}</p>
-              )}
-            </div>
+            <FormField
+              name="pincode"
+              placeholder="Pincode (optional)"
+              value={formData.pincode}
+              onChange={handleChange}
+              maxLength={6}
+              error={errors.pincode}
+            />
           </div>
         </div>
 
         <FormField
-          label="8. Do You Have Any Branch (क्या आपकी कोई शाखा है)"
+          label="8. Do You Have Any Branch (क्या आपकी कोई शाखा है) (optional)"
           name="has_branch"
           type="select"
+          options={["Yes", "No"]}
           value={formData.has_branch}
           onChange={handleChange}
-          required
-          options={["Yes", "No"]}
+          placeholder="Select Yes or No"
           error={errors.has_branch}
         />
 
@@ -431,7 +449,6 @@ export default function RegistrationForm() {
         <FormField
           label="11. Contact No. (संपर्क संख्या)"
           name="contact_no"
-          type="number"
           value={formData.contact_no}
           onChange={handleChange}
           required
@@ -470,37 +487,16 @@ export default function RegistrationForm() {
           </div>
         </div>
 
-        {submitStatus.message && (
-          <div
-            className={`p-5 rounded-xl border-l-4 text-center md:text-left shadow-sm ${
-              submitStatus.type === "success"
-                ? "bg-green-50 border-green-500 text-green-800"
-                : submitStatus.type === "error"
-                  ? "bg-red-50 border-red-500 text-red-800"
-                  : "bg-blue-50 border-blue-500 text-blue-800"
-            }`}
-          >
-            {submitStatus.message}
-          </div>
-        )}
-
         <div className="pt-8 flex justify-center">
           <GradientButton
             type="submit"
             disabled={loading}
-            className="text-lg py-4 px-16"
+            className="text-lg py-4 px-20"
           >
             {loading ? (
               <span className="flex items-center justify-center gap-3">
                 <svg className="animate-spin h-6 w-6" viewBox="0 0 24 24">
-                  <circle
-                    className="opacity-25"
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    strokeWidth="4"
-                  />
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                   <path
                     className="opacity-75"
                     fill="currentColor"
@@ -515,14 +511,6 @@ export default function RegistrationForm() {
           </GradientButton>
         </div>
       </form>
-
-      <form ref={hiddenFormRef} style={{ display: "none" }} />
-      <iframe
-        ref={iframeRef}
-        name="hiddenIframe"
-        style={{ display: "none" }}
-        title="Hidden Submission Frame"
-      />
     </div>
   );
 }
